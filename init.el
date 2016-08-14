@@ -53,6 +53,7 @@
      (auto-completion :variables auto-completion-enable-sort-by-usage t
                       :disabled-for org markdown)
      zilongshanren
+     leo
      )
    dotspacemacs-additional-packages '(sicp)
    dotspacemacs-frozen-packages '()
