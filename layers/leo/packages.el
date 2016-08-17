@@ -4,7 +4,10 @@
                      cc-mode
                      ;; 不准
                      ;; wttrin
+                     etags-select
                      evil
+                     company
+                     protobuf-mode
                      ))
 
 (defun leo/init-youdao-dictionary ()
@@ -29,3 +32,22 @@
       (setq c-basic-offset 4)
       (c-set-offset 'substatement-open 0)
       )))
+
+(defun leo/init-ctags-update ()
+  (use-package ctags-update
+    :init
+    :defer t
+    :config
+    (spacemacs|hide-lighter ctags-auto-update-mode)))
+
+(defun leo/post-init-company-c-headers ()
+  (progn
+    (setq company-c-headers-path-system
+          (quote
+           ("/usr/include/" "/usr/local/include/" "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1")))
+    (setq company-c-headers-path-user
+          (quote
+           (" /Users/Leo/Documents/C_Code/Leo/cocos2d-x/cocos/platform" " /Users/Leo/Documents/C_Code/Leo/cocos2d-x/cocos" "." " /Users/Leo/Documents/C_Code/Leo/cocos2d-x/cocos/audio/include/")))))
+
+(defun leo/init-protobuf-mode()
+  (use-package protobuf-mode))
