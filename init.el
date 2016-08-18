@@ -19,7 +19,7 @@
      org
      prodigy
      search-engine
-     (syntax-checking :variables syntax-checking-enable-by-default nil)
+     (syntax-checking :variables syntax-checking-enable-by-default t)
      (spell-checking :variables spell-checking-enable-by-default nil)
      yaml
      ;; (ruby :variables ruby-version-manager 'rvm)
