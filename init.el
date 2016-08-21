@@ -74,7 +74,7 @@
                         helm-flyspell flyspell-correct-helm clean-aindent-mode
                         helm-c-yasnippet ace-jump-helm-line helm-make helm-projectile
                         helm-themes helm-swoop helm-spacemacs-help smeargle)
-   dotspacemacs-download-packages 'used
+   dotspacemacs-install-packages 'used-only
    dotspacemacs-delete-orphan-packages t))
 
 (defun dotspacemacs/init ()
@@ -174,6 +174,32 @@
   (global-hungry-delete-mode t)
   (spacemacs|diminish helm-gtags-mode)
   (spacemacs|diminish ggtags-mode)
+
+  ;; https://emacs-china.org/t/ranger-golden-ratio/964/2
+  (defun my-ranger ()
+    (interactive)
+    (if golden-ratio-mode
+        (progn
+          (golden-ratio-mode -1)
+          (ranger)
+          (setq golden-ratio-previous-enable t))
+      (progn
+        (ranger)
+        (setq golden-ratio-previous-enable nil))))
+
+  (defun my-quit-ranger ()
+    (interactive)
+    (if golden-ratio-previous-enable
+        (progn
+          (ranger-close)
+          (golden-ratio-mode 1))
+      (ranger-close)))
+
+  (with-eval-after-load 'ranger
+    (progn
+      (define-key ranger-normal-mode-map (kbd "q") 'my-quit-ranger)))
+
+  (spacemacs/set-leader-keys "ar" 'my-ranger)
 
   (when (configuration-layer/layer-usedp 'ivy)
     (setq projectile-switch-project-action

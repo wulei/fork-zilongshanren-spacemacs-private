@@ -91,7 +91,8 @@
       ("g" customize-apropos-groups "groups")
       ("o" customize-apropos-options "options"))
 
-    (bind-key*  "<f4>" 'hydra-apropos/body)
+    ;; (bind-key*  "<f4>" 'hydra-apropos/body)
+    (spacemacs/set-leader-keys "oh" 'hydra-apropos/body)
 
     ))
 
@@ -339,10 +340,10 @@
           do (evil-set-initial-state mode state))
 
     ;;mimic "nzz" behaviou in vim
-    (defadvice evil-ex-search-next (after advice-for-evil-search-next activate)
+    (defadvice evil-search-next (after advice-for-evil-search-next activate)
       (evil-scroll-line-to-center (line-number-at-pos)))
 
-    (defadvice evil-ex-search-previous (after advice-for-evil-search-previous activate)
+    (defadvice evil-search-previous (after advice-for-evil-search-previous activate)
       (evil-scroll-line-to-center (line-number-at-pos)))
 
     (define-key evil-normal-state-map (kbd ",/") 'evilnc-comment-or-uncomment-lines)
@@ -724,7 +725,7 @@
       (let ((current-prefix-arg nil))
         (call-interactively
          (if p #'spacemacs/swiper-region-or-symbol
-           #'swiper))))
+           #'counsel-grep-or-swiper))))
 
     (setq ivy-use-virtual-buffers t)
     (setq ivy-display-style 'fancy)
@@ -843,6 +844,7 @@
   (progn
     (with-eval-after-load 'magit
       (progn
+
         (add-to-list 'magit-no-confirm 'stage-all-changes)
         (define-key magit-log-mode-map (kbd "W") 'magit-copy-section-value)
         (define-key magit-status-mode-map (kbd "s-1") 'magit-jump-to-unstaged)
@@ -860,6 +862,9 @@
         ;;                                                                      (eq 'stashes section-type))
         ;;                                                                  'hide))))
         ))
+
+    ;; prefer two way ediff
+    (setq magit-ediff-dwim-show-on-hunks t)
 
     ;; Githu PR settings
     ;; "http://endlessparentheses.com/create-github-prs-from-emacs-with-magit.html"
