@@ -8,21 +8,38 @@
    '(
      helm
      ivy
-     react
      better-defaults
      github
+     ranger
+     colors
+     prodigy
+     search-engine
+     graphviz
+     (syntax-checking :variables syntax-checking-enable-by-default t
+                      syntax-checking-enable-tooltips nil)
+     (spell-checking :variables spell-checking-enable-by-default nil)
+     (vinegar :variables vinegar-reuse-dired-buffer t)
+     (spacemacs-layouts :variables layouts-enable-autosave nil
+                        layouts-autosave-delay 300)
+     (git :variables
+          git-magit-status-fullscreen t
+          magit-push-always-verify nil
+          magit-save-repository-buffers 'dontask
+          magit-revert-buffers 'silent
+          magit-refs-show-commit-count 'all
+          magit-revision-show-gravatars nil)
+     (ibuffer :variables ibuffer-group-buffers-by 'projects)
+     (auto-completion :variables auto-completion-enable-sort-by-usage t
+                      :disabled-for org markdown)
      osx
+     restclient
+     gtags
      latex
      deft
      markdown
-     (vinegar :variables vinegar-reuse-dired-buffer t)
      org
-     prodigy
-     search-engine
-     (syntax-checking :variables syntax-checking-enable-by-default t)
-     (spell-checking :variables spell-checking-enable-by-default nil)
-     gtags
      yaml
+     react
      (python :variables
              python-test-runner '(nose pytest))
      (ruby :variables ruby-enable-enh-ruby-mode t
@@ -34,26 +51,11 @@
      (typescript :variables
                  typescript-fmt-on-save nil
                  typescript-fmt-tool 'typescript-formatter)
-     restclient
      emacs-lisp
      (clojure :variables clojure-enable-fancify-symbols t)
-     ranger
      racket
-     (spacemacs-layouts :variables layouts-enable-autosave nil
-                        layouts-autosave-delay 300)
-     colors
-     (git :variables
-          git-magit-status-fullscreen t
-          magit-push-always-verify nil
-          magit-save-repository-buffers 'dontask
-          magit-revert-buffers 'silent
-          magit-refs-show-commit-count 'all
-          magit-revision-show-gravatars nil)
-     (ibuffer :variables ibuffer-group-buffers-by 'projects)
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode)
-     (auto-completion :variables auto-completion-enable-sort-by-usage t
-                      :disabled-for org markdown)
      zilongshanren
      leo
      )
@@ -174,6 +176,8 @@
   (global-hungry-delete-mode t)
   (spacemacs|diminish helm-gtags-mode)
   (spacemacs|diminish ggtags-mode)
+  (spacemacs|diminish which-key-mode)
+  (spacemacs|diminish spacemacs-whitespace-cleanup-mode)
 
   ;; https://emacs-china.org/t/ranger-golden-ratio/964/2
   (defun my-ranger ()
