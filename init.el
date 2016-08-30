@@ -130,7 +130,7 @@
    dotspacemacs-show-transient-state-color-guide t
    dotspacemacs-mode-line-unicode-symbols t
    dotspacemacs-smooth-scrolling nil
-   dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers t
    dotspacemacs-folding-method 'origami
    dotspacemacs-smartparens-strict-mode nil
    dotspacemacs-smart-closing-parenthesis nil
