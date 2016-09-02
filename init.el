@@ -34,6 +34,7 @@
      (osx :variables osx-dictionary-dictionary-choice "Simplified Chinese - English")
      restclient
      (gtags :disabled-for clojure emacs-lisp javascript latex python shell-scripts)
+     (shell :variables shell-default-shell 'eshell)
      latex
      deft
      markdown
@@ -147,7 +148,7 @@
         '(("melpa-cn" . "https://elpa.zilongshanren.com/melpa/")
           ("org-cn"   . "https://elpa.zilongshanren.com/org/")
           ("gnu-cn"   . "https://elpa.zilongshanren.com/gnu/")))
- 
+
   ;; https://github.com/syl20bnr/spacemacs/issues/2705
   ;; (setq tramp-mode nil)
   (setq tramp-ssh-controlmaster-options
@@ -165,7 +166,21 @@
     (when (and (spacemacs/system-is-mac) window-system)
       (spacemacs//set-monospaced-font "Source Code Pro" "Hiragino Sans GB" 14 16)))
 
+  ;; Setting Chinese Font
+  (when (and (spacemacs/system-is-mswindows) window-system)
+    (setq ispell-program-name "aspell")
+    (setq w32-pass-alt-to-system nil)
+    (setq w32-apps-modifier 'super)
+    (dolist (charset '(kana han symbol cjk-misc bopomofo))
+      (set-fontset-font (frame-parameter nil 'font)
+                        charset
+                        (font-spec :family "Microsoft Yahei" :size 14))))
+
   (fset 'evil-visual-update-x-selection 'ignore)
+
+  ;; force horizontal split window
+  (setq split-width-threshold 120)
+
 
   (spacemacs|add-company-hook 'text-mode)
 
