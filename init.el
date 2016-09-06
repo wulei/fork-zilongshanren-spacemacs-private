@@ -92,7 +92,7 @@
    dotspacemacs-startup-lists '((recents . 5)
                                 (projects . 7))
    dotspacemacs-scratch-mode 'text-mode
-   dotspacemacs-themes '(solarized-light solarized-dark)
+   dotspacemacs-themes '(solarized-dark solarized-light)
    dotspacemacs-colorize-cursor-according-to-state t
    dotspacemacs-default-font '("Source Code Pro"
                                :size 14
