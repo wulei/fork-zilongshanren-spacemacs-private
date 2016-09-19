@@ -59,6 +59,7 @@
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode)
      zilongshanren
+     csharp
      leo
      )
    dotspacemacs-additional-packages '(sicp)
