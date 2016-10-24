@@ -42,7 +42,49 @@
         dumb-jump
         graphviz-dot-mode
         cider
+        editorconfig
+        robe
         ))
+
+(defun zilongshanren-programming/post-init-robe ()
+  (progn
+    (add-hook 'inf-ruby-mode-hook 'spacemacs/toggle-auto-completion-on)
+    (defun zilongshanren/ruby-send-current-line (&optional print)
+      "Send the current line to the inferior Ruby process."
+      (interactive "P")
+      (ruby-send-region
+       (line-beginning-position)
+       (line-end-position))
+      (when print (ruby-print-result)))
+
+    (defun zilongshanren/ruby-send-current-line-and-go ()
+      (interactive)
+      (zilongshanren/ruby-send-current-line)
+      (ruby-switch-to-inf t))
+
+    (defun zilongshanren/start-inf-ruby-and-robe ()
+      (interactive)
+      (when (not (get-buffer "*ruby*"))
+        (inf-ruby))
+      (robe-start))
+
+    (dolist (mode '(ruby-mode enh-ruby-mode))
+      (spacemacs/set-leader-keys-for-major-mode mode
+        "sb" 'ruby-send-block
+        "sB" 'ruby-send-buffer
+        "sl" 'zilongshanren/ruby-send-current-line
+        "sL" 'zilongshanren/ruby-send-current-line-and-go
+        "sI" 'zilongshanren/start-inf-ruby-and-robe))))
+
+(defun zilongshanren-programming/init-editorconfig ()
+  (use-package editorconfig
+    :init
+    (progn
+      (defun conditional-enable-editorconfig ()
+        (if (and (zilongshanren/vcs-project-root)
+                 (locate-dominating-file default-directory ".editorconfig"))
+            (editorconfig-apply)))
+      (add-hook 'prog-mode-hook 'conditional-enable-editorconfig))))
 
 (defun zilongshanren-programming/post-init-cider ()
   (setq cider-cljs-lein-repl
@@ -68,7 +110,12 @@
       (push '(graphviz-dot-mode  "digraph" "node" "shape" "subgraph" "label" "edge" "bgcolor" "style" "record") company-keywords-alist)))
 
 (defun zilongshanren-programming/post-init-dumb-jump ()
-  (setq dumb-jump-selector 'ivy))
+  (setq dumb-jump-selector 'ivy)
+  (defun my-dumb-jump ()
+    (interactive)
+    (evil-set-jump)
+    (dumb-jump-go))
+  (global-set-key (kbd "C-s-g") 'my-dumb-jump))
 
 (defun zilongshanren-programming/post-init-clojure-mode ()
   (use-package clojure-mode
@@ -178,9 +225,9 @@
          (define-key racket-repl-mode-map (kbd "]") nil)
          (define-key racket-repl-mode-map (kbd "[") nil)))
 
-    (add-hook 'racket-mode-hook (lambda () (lispy-mode 1)))
+    (add-hook 'racket-mode-hook #'(lambda () (lispy-mode 1)))
     (add-hook 'racket-repl-mode-hook #'(lambda () (lispy-mode t)))
-    (add-hook 'racket-repl-mode-hook #'(lambda () (smartparens-mode t)))
+    ;; (add-hook 'racket-repl-mode-hook #'(lambda () (smartparens-mode t)))
     ))
 
 (defun zilongshanren-programming/post-init-json-mode ()
@@ -388,7 +435,7 @@
 (defun zilongshanren-programming/post-init-lua-mode ()
   (progn
     (add-hook 'lua-mode-hook 'evil-matchit-mode)
-    (add-hook 'lua-mode-hook 'smartparens-mode)
+    ;; (add-hook 'lua-mode-hook 'smartparens-mode)
     (setq lua-indent-level 2)
 
 ;;; add lua language, basic, string and table keywords.

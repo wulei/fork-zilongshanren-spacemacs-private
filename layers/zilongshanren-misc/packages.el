@@ -26,10 +26,9 @@
         4clojure
         persp-mode
         helm-github-stars
-        youdao-dictionary
         helm
         tiny
-        smartparens
+        ;; smartparens
         flyspell-correct
         peep-dired
         markdown-mode
@@ -38,6 +37,7 @@
         git-messenger
         gist
         hydra
+        wrap-region
         ))
 
 (defun zilongshanren-misc/post-init-hydra ()
@@ -186,15 +186,6 @@
       )
     ))
 
-(defun zilongshanren-misc/init-youdao-dictionary ()
-  (use-package youdao-dictionary
-    :defer t
-    :init
-    (spacemacs/set-leader-keys "oy" 'youdao-dictionary-search-at-point+)
-    ))
-
-
-
 (defun zilongshanren-misc/init-helm-github-stars ()
   (use-package helm-github-stars
     :commands (helm-github-stars)
@@ -338,6 +329,14 @@
       (evil-scroll-line-to-center (line-number-at-pos)))
 
     (define-key evil-normal-state-map (kbd ",/") 'evilnc-comment-or-uncomment-lines)
+
+    (defun my-evil-yank ()
+      (interactive)
+      (save-excursion
+        (call-interactively 'evil-yank))
+      (backward-char))
+
+    (define-key evil-visual-state-map (kbd "y") 'my-evil-yank)
 
     (define-key evil-normal-state-map
       (kbd "Y") 'zilongshanren/yank-to-end-of-line)
@@ -497,7 +496,8 @@
             org-self-insert-command
             sp-backward-delete-char
             sp-delete-char
-            sp-remove-active-pair-overlay))
+            sp-remove-active-pair-overlay
+            orgtbl-hijacker-command-109))
     ))
 
 (defun zilongshanren-misc/post-init-persp-mode ()
@@ -524,9 +524,6 @@
                   (define-key map "-" 'chinese-wbim-previous-page)
                   (define-key map "=" 'chinese-wbim-next-page))))
     ))
-
-(defun zilongshanren-misc/post-init-youdao-dictionary ()
-  (spacemacs/set-leader-keys "oy" 'youdao-dictionary-search-at-point+))
 
 
 (defun zilongshanren-misc/post-init-evil-escape ()
