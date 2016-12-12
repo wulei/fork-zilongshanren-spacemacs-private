@@ -118,10 +118,7 @@
   (global-set-key (kbd "C-s-g") 'my-dumb-jump))
 
 (defun zilongshanren-programming/post-init-clojure-mode ()
-  (use-package clojure-mode
-    :defer t
-    :config
-    ))
+  )
 
 (defun zilongshanren-programming/post-init-emacs-lisp ()
     (remove-hook 'emacs-lisp-mode-hook 'auto-compile-mode))
@@ -198,6 +195,9 @@
 ;;       (setq inferior-js-program-command "node"))))
 
 (defun zilongshanren-programming/post-init-web-mode ()
+  (with-eval-after-load "web-mode"
+    (web-mode-toggle-current-element-highlight)
+    (web-mode-dom-errors-show))
   (setq company-backends-web-mode '((company-dabbrev-code
                                      company-keywords
                                      company-etags)
@@ -252,23 +252,30 @@
     :diminish (lispy-mode)
     :init
     (progn
+
       (add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
       (add-hook 'ielm-mode-hook (lambda () (lispy-mode 1)))
       (add-hook 'inferior-emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
       ;; (add-hook 'spacemacs-mode-hook (lambda () (lispy-mode 1)))
       (add-hook 'clojure-mode-hook (lambda () (lispy-mode 1)))
       (add-hook 'scheme-mode-hook (lambda () (lispy-mode 1)))
-      (add-hook 'cider-repl-mode-hook (lambda () (lispy-mode 1))))
+      (add-hook 'cider-repl-mode-hook (lambda () (lispy-mode 1)))
+      )
     :config
     (progn
       (push '(cider-repl-mode . ("[`'~@]+" "#" "#\\?@?")) lispy-parens-preceding-syntax-alist)
+
+      (define-key lispy-mode-map (kbd "s-j") 'lispy-splice)
+      (define-key lispy-mode-map (kbd "s-k") 'paredit-splice-sexp-killing-backward)
+
+      (with-eval-after-load 'cider-repl
+        (define-key cider-repl-mode-map (kbd "C-s-j") 'cider-repl-newline-and-indent))
 
       (add-hook
        'minibuffer-setup-hook
        'conditionally-enable-lispy)
       (define-key lispy-mode-map (kbd "s-m") 'lispy-mark-symbol)
       (define-key lispy-mode-map (kbd "s-1") 'lispy-describe-inline)
-      (define-key lispy-mode-map (kbd "s-k") 'lispy-splice)
       (define-key lispy-mode-map (kbd "s-2") 'lispy-arglist-inline))))
 
 
@@ -321,6 +328,9 @@
 
 (defun zilongshanren-programming/post-init-js2-mode ()
   (progn
+    (add-hook 'js2-mode-hook 'my-setup-develop-environment)
+    (add-hook 'web-mode-hook 'my-setup-develop-environment)
+
     (spacemacs|define-jump-handlers js2-mode)
     (add-hook 'spacemacs-jump-handlers-js2-mode 'etags-select-find-tag-at-point)
 
@@ -334,6 +344,9 @@
 
     (add-hook 'js2-mode-hook 'my-js2-mode-hook)
 
+    ;; add your own keywords highlight here
+    (font-lock-add-keywords 'js2-mode
+                            '(("\\<\\(cc\\)\\>" 1 font-lock-type-face)))
 
     (spacemacs/declare-prefix-for-mode 'js2-mode "ms" "repl")
 
@@ -344,7 +357,7 @@
         (setq-default js2-allow-rhino-new-expr-initializer nil)
         (setq-default js2-auto-indent-p nil)
         (setq-default js2-enter-indents-newline nil)
-        (setq-default js2-global-externs '("module" "require" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON"))
+        (setq-default js2-global-externs '("module" "ccui" "require" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON"))
         (setq-default js2-idle-timer-delay 0.2)
         (setq-default js2-mirror-mode nil)
         (setq-default js2-strict-inconsistent-return-warning nil)
@@ -458,11 +471,7 @@
     (spacemacs/set-leader-keys-for-major-mode 'c++-mode
       "gd" 'etags-select-find-tag-at-point)
 
-    (defvar my-tags-updated-time nil)
 
-    ;; (add-hook 'after-save-hook 'my-auto-update-tags-when-save)
-    (add-hook 'js2-mode-hook 'my-setup-develop-environment)
-    (add-hook 'web-mode-hook 'my-setup-develop-environment)
     (add-hook 'c++-mode-hook 'my-setup-develop-environment)
     (add-hook 'c-mode-hook 'my-setup-develop-environment)
 
@@ -487,7 +496,7 @@
     (c-set-offset 'substatement-open 0)
     (with-eval-after-load 'c++-mode
       (define-key c++-mode-map (kbd "s-.") 'company-ycmd)))
-  ;; company backend should be grouped
+
   )
 
 (defun zilongshanren-programming/init-flycheck-clojure ()
@@ -554,8 +563,6 @@
                paredit-splice-sexp-killing-backward)
     :init
     (progn
-      (bind-key* "s-j"
-                 #'paredit-splice-sexp-killing-backward)
 
       (bind-key* "s-(" #'paredit-wrap-round)
       (bind-key* "s-[" #'paredit-wrap-square)
