@@ -39,7 +39,7 @@ values."
      prodigy
      search-engine
      graphviz
-     (syntax-checking :variables syntax-checking-enable-by-default nil
+     (syntax-checking :variables syntax-checking-enable-by-default t
                       syntax-checking-enable-tooltips nil)
      (spell-checking :variables spell-checking-enable-by-default nil)
      (vinegar :variables vinegar-reuse-dired-buffer t)
