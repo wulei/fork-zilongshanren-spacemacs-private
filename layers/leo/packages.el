@@ -1,14 +1,14 @@
 (setq leo-packages '(
                      ;; youdao-dictionary
                      lua-mode
-                     cc-mode
+                     ;; cc-mode
                      ;; 不准
                      ;; wttrin
                      ;; etags-select
                      ;; evil
                      ;; company
                      protobuf-mode
-                     highlight-indentation
+                     ;; highlight-indentation
                      ))
 
 ;; (defun leo/init-youdao-dictionary ()
