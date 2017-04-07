@@ -360,6 +360,8 @@ values."
   )
 
 (defun dotspacemacs/user-config ()
+  ;; 开启缩进线
+  (spacemacs/toggle-indent-guide-globally-on)
   ;;解决org表格里面中英文对齐的问题
   ;; (when (configuration-layer/layer-usedp 'chinese)
   ;;   (when (and (spacemacs/system-is-mac) window-system)
