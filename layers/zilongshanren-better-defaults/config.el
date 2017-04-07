@@ -1,6 +1,6 @@
 ;;; config.el --- zilongshanren Layer packages File for Spacemacs
 ;;
-;; Copyright (c) 2015-2016 zilongshanren
+;; Copyright (c) 2014-2016 zilongshanren
 ;;
 ;; Author: zilongshanren <guanghui8827@gmail.com>
 ;; URL: https://github.com/zilongshanren/spacemacs-private
@@ -176,3 +176,7 @@ Single Capitals as you type."
             ',variable ,value))
 
 (csetq ediff-diff-options "-w")
+
+(setq backup-by-copying t
+      make-backup-files nil
+      create-lockfiles nil)
